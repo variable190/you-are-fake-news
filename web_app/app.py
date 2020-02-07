@@ -7,37 +7,7 @@ from oauth2client.client import GoogleCredentials
 
 app = Flask(__name__)
 
-@app.route('/')
-def index():
-   return render_template('home.html')
-
-@app.route('/results', methods=['POST','GET'])
-def analyse_tweet():
-    if request.method == 'POST':
-        tweet = request.form['tweet']
-        tweet = re.sub(r'http\S+', '', tweet)
-        tweet = tweet.replace('\n', ' ')
-        tweet = tweet + ' \n'
-        tweet_list = []
-        tweet_list.append(tweet)
-        tweet_list.append('<p> '*53 + '\n')
-        tweet_list = preprocess(tweet_list)
-        tweet_list = encode_words(tweet_list)
-        encoded_tweet = tweet_list[0].numpy().tolist()
-        project = 'tweet-sentiments-266913'
-        model = 'satire_or_real_test'
-        prediction = predict_json(project, model, encoded_tweet)
-        return render_template('results.html', result=prediction)
-    else:
-        return redirect(url_for('index'))
-
-def preprocess(tweet):
-    tweet = tf.strings.substr(tweet, 0, 240)
-    tweet = tf.strings.regex_replace(tweet, b"<br\\s*/?>", b" ")
-    tweet = tf.strings.regex_replace(tweet, b"[^a-zA-Z']", b" ")
-    tweet = tf.strings.split(tweet)
-    return tweet.to_tensor(default_value=b"<p>")
-
+# preload vocabulary and create lookup table
 vocabulary = []
 
 with open('vocabulary.txt', 'r') as file:
@@ -50,9 +20,30 @@ vocab_init = tf.lookup.KeyValueTensorInitializer(words, word_ids)
 num_oov_buckets = 1000
 table = tf.lookup.StaticVocabularyTable(vocab_init, num_oov_buckets)
 
+# remove urls, newlines and tweet to list with fully padded empty tweet
+def tweet_to_list(tweet):
+    tweet = re.sub(r'http\S+', '', tweet)
+    tweet = tweet.replace('\n', ' ')
+    tweet = tweet + ' \n'
+    tweet_list = []
+    tweet_list.append(tweet)
+    tweet_list.append('<p> '*53 + '\n')
+    return tweet_list
+
+# split tweet into words, remove special characters and pad to 
+# expected vector size
+def preprocess(tweet):
+    tweet = tf.strings.substr(tweet, 0, 240)
+    tweet = tf.strings.regex_replace(tweet, b"<br\\s*/?>", b" ")
+    tweet = tf.strings.regex_replace(tweet, b"[^a-zA-Z']", b" ")
+    tweet = tf.strings.split(tweet)
+    return tweet.to_tensor(default_value=b"<p>")
+
+# replace words in tweet with respective IDs
 def encode_words(dataset_input):
     return table.lookup(dataset_input)
 
+# pass encoded tweet as HTTP post request to train NN model API
 def predict_json(project, model, instances, version=None):
 
     service = googleapiclient.discovery.build('ml', 'v1')
@@ -74,6 +65,28 @@ def predict_json(project, model, instances, version=None):
 
     return prediction
 
+# render home page
+@app.route('/')
+def index():
+   return render_template('home.html')
+
+# preprocess tweet, send it to NN model API and pass the results to 
+# be rendered on the results page
+@app.route('/results', methods=['POST','GET'])
+def analyse_tweet():
+    if request.method == 'POST':
+        tweet = request.form['tweet']
+        tweet_list = []
+        tweet_list = tweet_to_list(tweet)
+        tweet_list = preprocess(tweet_list)
+        tweet_list = encode_words(tweet_list)
+        encoded_tweet = tweet_list[0].numpy().tolist()
+        project = 'tweet-sentiments-266913'
+        model = 'satire_or_real_test'
+        prediction = predict_json(project, model, encoded_tweet)
+        return render_template('results.html', result=prediction)
+    else:
+        return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run() 
