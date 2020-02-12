@@ -8,14 +8,14 @@ data.
 
 In order to connect to the twitter api the *twitter_credentials.json* file 
 needs popoulating with credentials in the following format:
-`
+```
 {
     "consumer_key": "", 
     "consumer_secret": "", 
     "access_token": "", 
     "access_token_secret": ""
 }
-`
+```
 
 ## Scripts ##
 
