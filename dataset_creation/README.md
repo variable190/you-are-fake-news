@@ -32,3 +32,6 @@ raw tweets read from text file.
 The *randomise_and_split_from_labels.py* script reads a specified dataset,
 randomises the order of the set and outputs two new files one containing the
 tweets and another with the labels for each tweet on the corresponding line.
+
+The *flip_labels.py* script takes a tweet set as an input and outputs a random
+sample to a dataset with a new specified label.
