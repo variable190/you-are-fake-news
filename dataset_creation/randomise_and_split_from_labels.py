@@ -1,7 +1,7 @@
 import random
 
 # variable to hold name of dataset to be randomised and split
-dataset = 'satire_vs_real'
+dataset = 'moderate_vs_extremes'
 
 # Open dataset, enumerate with random number and sort in ascending numerical 
 # order

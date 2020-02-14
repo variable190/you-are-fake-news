@@ -8,7 +8,6 @@ import time
 # collect twitter api credentials
 with open('twitter_credentials.json') as f:
     creds = json.load(f)
-    f.close()
 
 # create twitter api client
 client = Twython(creds['consumer_key'], creds['consumer_secret'], \
