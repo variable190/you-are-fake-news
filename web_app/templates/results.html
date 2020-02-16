@@ -1,8 +1,35 @@
 <!doctype html>
 <html>
    <body>
-   
-      <h1>Prediction: {{ result }}% satire!</h1>
+      
+      <h1>Tweet Analysis</h1>
+
+      <h2>Serious<canvas id="sor" width="500" height="10" style="border:2px solid;"></canvas>Satire</h2>
+      <h2>Moderate<canvas id="mve" width="500" height="10" style="border:2px solid;"></canvas>Extreme</h2>
+      
+      <p>The model predicts that this tweet is {{ sor_result }}% satire and {{ mve_result }}% extreme!</p>
+
+      <script>
+         var sor_prediction =  {{sor_result}}*5 ;
+         var c = document.getElementById("sor");
+         var ctx = c.getContext("2d");
+         ctx.fillStyle = "#FF0000";
+         ctx.fillRect(0,0,sor_prediction,10);
+         ctx.moveTo(sor_prediction,0);
+         ctx.lineTo(sor_prediction,10);
+         ctx.stroke();
+      </script>
+
+      <script>
+         var mve_prediction =  {{mve_result}}*5 ;
+         var mve = document.getElementById("mve");
+         var cmve = mve.getContext("2d");
+         cmve.fillStyle = "#FF0000";
+         cmve.fillRect(0,0,mve_prediction,10);
+         cmve.moveTo(mve_prediction,0);
+         cmve.lineTo(mve_prediction,10);
+         cmve.stroke();
+      </script>
       
    </body>
 </html>
