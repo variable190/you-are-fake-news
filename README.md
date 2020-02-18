@@ -28,4 +28,6 @@ The web app is very basic and is purely just to demostrate an interface that
 can accept a tweet, process it and semd it to the models through their 
 respictive APIs.  The app then presents the returned predictions.
 <br/><br/><br/><br/>
-*All scripts that have filepaths are relative as if the script is being run from its actual location.<br/><br/>Scripts that connect to the Twitter API require credentials adding to the json file as instructed.*
+*All scripts that have filepaths are relative as if the script is being run 
+from its actual location.<br/><br/>Scripts that connect to the Twitter API 
+require credentials adding to the json file as instructed.*
