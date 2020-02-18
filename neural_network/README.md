@@ -25,3 +25,21 @@ with open('/content/gdrive/My Drive/Colab Notebooks/tweets.txt', encoding="utf8"
     
 with open('/content/gdrive/My Drive/Colab Notebooks/labels.txt') as f:
     raw_labels = f.readlines()</pre>
+
+Once a network has been trained or loaded onto Colab into can be saved to a 
+storage bucket on Google Cloud Platform using the following code.
+
+<pre>import sys
+
+if 'google.colab' in sys.modules:
+  from google.colab import auth as google_auth
+  google_auth.authenticate_user()
+else:
+  %env GOOGLE_APPLICATION_CREDENTIALS ''
+  
+export_path = tf.saved_model.save(model, 'gs://[bucket]/[model]')</pre>
+
+Once a model has been saved to a storage bucket an API can be created using the
+AI platform on GCP.  Three of the models have APIs: moderates_vs_extremes, 
+left_vs_right and satire_vs_serious.  The web_app has been built as an example
+of processing a tweet to access these models through the APIs.
