@@ -17,12 +17,11 @@ The tweets and labels of the dataset that is to be trained will also need
 adding and the filepath amending to locate the correctly. Here is an example of
 code that can be added to mount the gdrive and the dataset.
 
-`from google.colab import drive
-drive.mount('/content/gdrive')`
+<pre>from google.colab import drive
+drive.mount('/content/gdrive')
 
 with open('/content/gdrive/My Drive/Colab Notebooks/tweets.txt', encoding="utf8") as f:
     raw_tweets = f.readlines()
     
-with open('/content/gdrive/My Drive/Colab Notebooks/labels.txt') as f:`
-    raw_labels = f.readlines()`
-
+with open('/content/gdrive/My Drive/Colab Notebooks/labels.txt') as f:
+    raw_labels = f.readlines()</pre>
