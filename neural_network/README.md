@@ -3,7 +3,7 @@
 Multiple models are trained on the satire_vs_serious dataset to find one that 
 performs the best, this model is used because it is the smallest and smaller 
 datasets are more likely to have problems with overfitting. Finding a model
-that works well on this dataset suggest it will work better on the others.
+that works well on this dataset suggests it will work better on the others.
 
 The best fitting model was then used for each of the other datasets and the
 performance can be seen for each dataset in its respective .ipynb file.  
@@ -14,7 +14,9 @@ in a web browser using Googles Colab interface. Tensorflow 2.1 was used, thus,
 if using Colab add `%tensorflow_version 2.x` before the Tensorflow import.
 The tweets and labels of the dataset that is to be trained will also need
 adding and the filepath amending to locate them correctly. Here is an example of
-code that can be added to mount the gdrive and the dataset.
+code that can be added to mount the gdrive and the dataset.  Mount the drive
+first and add the files Colab Notebooks folder before running the read file
+code.
 
 <pre>from google.colab import drive
 drive.mount('/content/gdrive')

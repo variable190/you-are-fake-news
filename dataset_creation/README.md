@@ -26,7 +26,7 @@ specified label is added and the tweet is added to a specified filename in the
 *collected_tweets* folder.
 
 The *remove_duplicates.py* script creates a new file adding only unique tweets 
-as well as a single sample of any duplicates from the a callection of 
+as well as a single sample of any duplicates from the collection of 
 raw tweets read from text file.
 
 The *randomise_and_split_from_labels.py* script reads a specified dataset,
